@@ -1,0 +1,43 @@
+package com.my.newproject52;
+
+import android.app.AlarmManager;
+import android.app.Application;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Process;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.Thread.UncaughtExceptionHandler;
+
+public class ArabWareDebug extends Application {
+    private UncaughtExceptionHandler uncaughtExceptionHandler;
+
+    public void onCreate() {
+        this.uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+            public void uncaughtException(Thread thread, Throwable th) {
+                Intent intent = new Intent(ArabWareDebug.this.getApplicationContext(), DebugActivity.class);
+                intent.setFlags(32768);
+                intent.putExtra("error", ArabWareDebug.this.getStackTrace(th));
+                ((AlarmManager) ArabWareDebug.this.getSystemService("alarm")).set(2, 1000, PendingIntent.getActivity(ArabWareDebug.this.getApplicationContext(), 11111, intent, 1073741824));
+                Process.killProcess(Process.myPid());
+                System.exit(2);
+                ArabWareDebug.this.uncaughtExceptionHandler.uncaughtException(thread, th);
+            }
+        });
+        super.onCreate();
+    }
+
+    private String getStackTrace(Throwable th) {
+        Writer stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        while (th != null) {
+            th.printStackTrace(printWriter);
+            th = th.getCause();
+        }
+        String obj = stringWriter.toString();
+        printWriter.close();
+        return obj;
+    }
+}
