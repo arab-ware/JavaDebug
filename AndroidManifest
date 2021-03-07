@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.my.newproject52" platformBuildVersionCode="29" platformBuildVersionName="10">
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
+	<application android:name=".ArabWareDebug">
+		<activity android:configChanges="keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize" android:hardwareAccelerated="true" android:name=".DebugActivity" android:screenOrientation="portrait" android:supportsPictureInPicture="true" />
+		<activity android:name=".DebugActivity" android:screenOrientation="portrait" />
+		<uses-library android:name="org.apache.http.legacy" android:required="false" />
+	</application>
+</manifest>
